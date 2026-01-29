@@ -27,14 +27,14 @@
 ### Bước 2: Cài đặt và cấu hình Fail2Ban trên máy Ubuntu server
 
 1. Cài đặt Fail2Ban
-
+```
 sudo apt update
 sudo apt install fail2ban -y
-
+```
 2. Cấu hình Fail2Ban cho dịch vụ SSH
-
+```
 sudo nano /etc/fail2ban/jail.local
-
+```
 Thêm các dòng dưới để cấu hình bảo vệ dịch vụ SSH:
 ```
 [sshd]
