@@ -18,4 +18,50 @@
 
 ## 4. Các bước thực hiện
 
-### Bước 1: Chuẩn bị mỗi trường
+### Bước 1: Chuẩn bị môi trường
+- Tải và cài đặt máy ảo Ubuntu và Kali Linux tại đây:
+  https://ubuntu.com/download/desktop
+  https://www.kali.org/get-kali/#kali-virtual-machines
+- Cài đặt và cấu hình Splunk server và Splunk forwarder theo hướng dẫn dưới đây:
+  https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md
+### Bước 2: Cài đặt và cấu hình Fail2Ban trên máy Ubuntu server
+
+1. Cài đặt Fail2Ban
+
+sudo apt update
+sudo apt install fail2ban -y
+
+2. Cấu hình Fail2Ban cho dịch vụ SSH
+
+sudo nano /etc/fail2ban/jail.local
+
+Thêm các dòng dưới để cấu hình bảo vệ dịch vụ SSH:
+```
+[sshd]
+enabled = true
+port = ssh
+logpath = /var/log/auth.log
+maxretry = 5
+bantime = 600
+findtime = 600
+```
+
+3. Add monitor để forwarder theo dõi file log và restart Fail2Ban
+```
+/opt/splunkforwarder/bin/splunk add monitor /var/log/fail2ban.log
+sudo systemctl restart fail2ban
+```
+4. Kiểm tra trạng thái hoạt động của Fail2Ban
+```
+sudo fail2ban-client status
+```
+### Bước 3: Cấu hình Splunk Server và Splunk Forwarder
+
+1. **Trên Splunk Server (Windows)**
+- Tạo index mới: `fail2ban_logs` (Settings → Indexes → New Index).
+2. **Trên Splunk Universal Forwarder (Ubuntu Server)**
+- Thiết lập Splunk Forwarder giám sát log của Fail2Ban:
+```bash
+/opt/splunkforwarder/bin/splunk add monitor /var/log/fail2ban.log
+sudo systemctl restart fail2ban
+```
