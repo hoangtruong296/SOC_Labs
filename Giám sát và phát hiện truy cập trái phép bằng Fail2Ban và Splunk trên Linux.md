@@ -35,7 +35,7 @@ sudo apt install fail2ban -y
 ```
 sudo nano /etc/fail2ban/jail.local
 ```
-Thêm các dòng dưới để cấu hình bảo vệ dịch vụ SSH:
+  Thêm các dòng dưới để cấu hình bảo vệ dịch vụ SSH:
 ```
 [sshd]
 enabled = true
