@@ -14,7 +14,7 @@
 
 ## 3. Sơ đồ mạng
 
-<img width="720" height="392" alt="Fail2Ban-Splunk drawio" src="https://github.com/user-attachments/assets/549be161-184b-41e8-9f17-882d32877ef4" />
+<img width="720" height="392" alt="Fail2Ban-Splunk drawio" src="https://github.com/user-attachments/assets/11f702aa-ebd7-4269-aa66-4395f9aab486" />
 
 ## 4. Các bước thực hiện
 
@@ -33,7 +33,7 @@ sudo apt install fail2ban -y
 ```
 2. Cấu hình Fail2Ban cho dịch vụ SSH
 ```
-sudo nano /etc/fail2ban/jail.local
+sudo nano /etc/fail2ban/jail.conf
 ```
   Thêm các dòng dưới để cấu hình bảo vệ dịch vụ SSH:
 ```
