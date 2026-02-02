@@ -24,7 +24,7 @@
   https://ubuntu.com/download/desktop
 
   https://www.kali.org/get-kali/#kali-virtual-machines
-- Cài đặt và cấu hình Splunk server và Splunk forwarder theo hướng dẫn dưới đây:
+- Cài đặt và cấu hình Splunk server và Splunk Forwarder theo hướng dẫn dưới đây:
 
   https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md
 ### Bước 2: Cài đặt và cấu hình Fail2Ban trên máy Ubuntu server
@@ -49,7 +49,7 @@ bantime = 600
 findtime = 600
 ```
 
-3. Add monitor để forwarder theo dõi file log và restart Fail2Ban
+3. Add monitor để Forwarder theo dõi file log của Fail2Ban và restart Fail2Ban
 ```
 /opt/splunkforwarder/bin/splunk add monitor /var/log/fail2ban.log
 sudo systemctl restart fail2ban
@@ -62,7 +62,7 @@ sudo fail2ban-client status
 
 ### Bước 3: Cấu hình Splunk Server và Splunk Forwarder
 
-1. **Trên Splunk Server (Windows)**
+1. **Trên Splunk Server (Ubuntu)**
 - Tạo index mới: `fail2ban_logs` (Settings → Indexes → New Index).
 2. **Trên Splunk Universal Forwarder (Ubuntu Server)**
 - Thiết lập Splunk Forwarder giám sát log của Fail2Ban:
@@ -70,3 +70,18 @@ sudo fail2ban-client status
 /opt/splunkforwarder/bin/splunk add monitor /var/log/fail2ban.log
 sudo systemctl restart fail2ban
 ```
+- Cấu hình Splunk Forwarder gửi log của Fail2Ban đến Splunk Server:
+  Mở file inputs.conf:
+```bash
+  sudo nano /opt/splunkforwarder/etc/system/local/inputs.conf
+```
+  Thêm các dòng sau:
+```bash
+[monitor:///var/log/fail2ban.log]
+sourcetype = fail2ban_logs
+index = fail2ban_logs
+```
+
+<img width="772" height="377" alt="image" src="https://github.com/user-attachments/assets/46dfcad6-8ca5-49c7-a813-873dc4eb368f" />
+
+
