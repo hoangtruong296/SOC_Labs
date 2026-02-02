@@ -20,9 +20,12 @@
 
 ### Bước 1: Chuẩn bị môi trường
 - Tải và cài đặt máy ảo Ubuntu và Kali Linux tại đây:
+
   https://ubuntu.com/download/desktop
+
   https://www.kali.org/get-kali/#kali-virtual-machines
 - Cài đặt và cấu hình Splunk server và Splunk forwarder theo hướng dẫn dưới đây:
+
   https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md
 ### Bước 2: Cài đặt và cấu hình Fail2Ban trên máy Ubuntu server
 
