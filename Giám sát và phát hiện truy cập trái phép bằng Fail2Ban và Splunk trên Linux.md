@@ -49,7 +49,7 @@ bantime = 600
 findtime = 600
 ```
 
-3. Add monitor để Forwarder theo dõi file log của Fail2Ban và restart Fail2Ban
+3. Add monitor để Forwarder theo dõi file log của Fail2Ban và khởi động lại Fail2Ban
 ```
 /opt/splunkforwarder/bin/splunk add monitor /var/log/fail2ban.log
 sudo systemctl restart fail2ban
@@ -64,6 +64,9 @@ sudo fail2ban-client status
 
 1. **Trên Splunk Server (Ubuntu)**
 - Tạo index mới: `fail2ban_logs` (Settings → Indexes → New Index).
+
+<img width="795" height="648" alt="image" src="https://github.com/user-attachments/assets/124ce464-6d1b-495f-af12-9ce84d4ca6be" />
+
 2. **Trên Splunk Universal Forwarder (Ubuntu Server)**
 - Thiết lập Splunk Forwarder giám sát log của Fail2Ban:
 ```bash
@@ -72,10 +75,12 @@ sudo systemctl restart fail2ban
 ```
 - Cấu hình Splunk Forwarder gửi log của Fail2Ban đến Splunk Server:
   Mở file inputs.conf:
+  
 ```bash
-  sudo nano /opt/splunkforwarder/etc/system/local/inputs.conf
+sudo nano /opt/splunkforwarder/etc/system/local/inputs.conf
 ```
   Thêm các dòng sau:
+  
 ```bash
 [monitor:///var/log/fail2ban.log]
 sourcetype = fail2ban_logs
@@ -84,4 +89,9 @@ index = fail2ban_logs
 
 <img width="772" height="377" alt="image" src="https://github.com/user-attachments/assets/46dfcad6-8ca5-49c7-a813-873dc4eb368f" />
 
+  Sau đó khởi động lại Splunk Forwarder:
+  
+```
+sudo /opt/splunkforwarder/bin/splunk restart
+```
 
