@@ -55,6 +55,8 @@ sudo systemctl restart fail2ban
 ```
 sudo fail2ban-client status
 ```
+<img width="853" height="207" alt="image" src="https://github.com/user-attachments/assets/ba9dcf8c-07b2-4478-b818-7d91efa0bdb5" />
+
 ### Bước 3: Cấu hình Splunk Server và Splunk Forwarder
 
 1. **Trên Splunk Server (Windows)**
