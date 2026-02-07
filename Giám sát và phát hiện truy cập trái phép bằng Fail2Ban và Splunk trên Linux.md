@@ -114,9 +114,9 @@ sudo /opt/splunkforwarder/bin/splunk restart
 
 3. **Chạy Hydra brute-force SSH**
 
-'''bash
+```bash
 hydra -l hoang -P passwd.txt 192.168.0.20 ssh
-'''
+```
 
 <img width="1029" height="220" alt="image" src="https://github.com/user-attachments/assets/af84ade0-f793-4ddc-859d-47cc5fece8af" />
 
@@ -172,7 +172,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
 ## Để unban IP, sử dụng lệnh:
 
-'''bash
+```bash
 sudo fail2ban-client set sshd unbanip <banned-ip>
-'''
+```
 
