@@ -60,6 +60,8 @@ sudo fail2ban-client status
 ```
 <img width="853" height="207" alt="image" src="https://github.com/user-attachments/assets/ba9dcf8c-07b2-4478-b818-7d91efa0bdb5" />
 
+<img width="441" height="95" alt="image" src="https://github.com/user-attachments/assets/689c1b7c-b49a-4bb1-b2dd-57f1400c655e" />
+
 ### Bước 3: Cấu hình Splunk Server và Splunk Forwarder
 
 1. **Trên Splunk Server (Ubuntu)**
@@ -94,4 +96,50 @@ index = fail2ban_logs
 ```
 sudo /opt/splunkforwarder/bin/splunk restart
 ```
+
+## **Bước 4: Mô phỏng tấn công brute-force SSH từ Kali Linux**
+
+1. **Kiểm tra thử hệ thống log hoạt động ổn định:**
+- Sau khi cấu hình Splunk Server, Splunk Forwarder thì trên máy Ubuntu Server thử đăng nhập SSH với mật khẩu sai để tạo log xem mọi thứ đã hoạt động ổn chưa
+
+  <img width="922" height="393" alt="image" src="https://github.com/user-attachments/assets/c4868c78-4a2c-4f29-8c8c-b6359a6bb66b" />
+
+  <img width="1457" height="653" alt="image" src="https://github.com/user-attachments/assets/cfd6f5cd-2bd4-4ec2-842f-fc5dd51f38ce" />
+
+- Hình trên đã cho thấy rằng Splunk Forwarder đã hoạt động và tạo log, Splunk Forwarder cũng đã theo dõi log của Fail2Ban từ file fail2ban.log sau đó gửi log đến Splunk Server
+- Tiếp theo, sử dụng máy Kali Linux để mô phỏng tấn công brute-force
+
+2. **Tạo danh sách mật khẩu brute-force (hoặc sử dụng wordlist có sẵn)**
+
+  <img width="286" height="214" alt="image" src="https://github.com/user-attachments/assets/adafdc0d-e335-4af0-a48c-0c2b9245fcfe" />
+
+3. **Chạy Hydra brute-force SSH**
+
+'''bash
+hydra -l hoang -P passwd.txt 192.168.0.20 ssh
+'''
+
+<img width="1029" height="220" alt="image" src="https://github.com/user-attachments/assets/af84ade0-f793-4ddc-859d-47cc5fece8af" />
+
+4. **Kiểm tra Fail2Ban trên máy Ubuntu Server đã block IP tấn công chưa**
+
+- File fail2ban.log đã ghi lại nỗ lực truy cập thất bại nhiều lần từ Kali(attacker) với địa chỉ IP 192.168.0.30
+  
+  <img width="927" height="242" alt="image" src="https://github.com/user-attachments/assets/315e70d7-8b14-4542-abe8-91263143b7b8" />
+
+- Kiểm tra Fail2Ban trên Ubuntu Server, ta thấy rằng IP của Kali đã bị block
+
+  <img width="857" height="218" alt="image" src="https://github.com/user-attachments/assets/0a4e7633-66c8-4d07-90ad-33bf5a63b536" />
+
+- Splunk Server cũng đã nhận được log và hiển thị log về các sự kiện trên
+
+  <img width="1244" height="623" alt="image" src="https://github.com/user-attachments/assets/066afb07-ca9a-49ae-adfb-4ef42573e5c7" />
+
+## **Bước 5: Phân tích log trên Splunk**
+
+- Truy cập giao diện Splunk Server qua trình duyệt: http://127.0.0.1:8000
+
+- Splunk Server cũng đã nhận được log và hiển thị log về các sự kiện trên
+
+  <img width="1244" height="623" alt="image" src="https://github.com/user-attachments/assets/066afb07-ca9a-49ae-adfb-4ef42573e5c7" />
 
