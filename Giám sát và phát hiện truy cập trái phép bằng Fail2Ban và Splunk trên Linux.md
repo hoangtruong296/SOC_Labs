@@ -58,7 +58,6 @@ sudo systemctl restart fail2ban
 ```
 sudo fail2ban-client status
 ```
-<img width="853" height="207" alt="image" src="https://github.com/user-attachments/assets/ba9dcf8c-07b2-4478-b818-7d91efa0bdb5" />
 
 <img width="441" height="95" alt="image" src="https://github.com/user-attachments/assets/689c1b7c-b49a-4bb1-b2dd-57f1400c655e" />
 
