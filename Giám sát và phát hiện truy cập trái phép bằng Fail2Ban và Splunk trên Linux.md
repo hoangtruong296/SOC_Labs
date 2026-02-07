@@ -96,7 +96,7 @@ index = fail2ban_logs
 sudo /opt/splunkforwarder/bin/splunk restart
 ```
 
-## **Bước 4: Mô phỏng tấn công brute-force SSH từ Kali Linux**
+### **Bước 4: Mô phỏng tấn công brute-force SSH từ Kali Linux**
 
 1. **Kiểm tra thử hệ thống log hoạt động ổn định:**
 - Sau khi cấu hình Splunk Server, Splunk Forwarder thì trên máy Ubuntu Server thử đăng nhập SSH với mật khẩu sai để tạo log xem mọi thứ đã hoạt động ổn chưa
@@ -134,7 +134,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
   <img width="1244" height="623" alt="image" src="https://github.com/user-attachments/assets/066afb07-ca9a-49ae-adfb-4ef42573e5c7" />
 
-## **Bước 5: Phân tích log trên Splunk**
+### **Bước 5: Phân tích log trên Splunk**
 
 - Truy cập giao diện Splunk Server qua trình duyệt: http://127.0.0.1:8000 và Search → chọn index fail2ban_logs và thực hiện truy vấn log
 
@@ -142,7 +142,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
   <img width="1244" height="623" alt="image" src="https://github.com/user-attachments/assets/066afb07-ca9a-49ae-adfb-4ef42573e5c7" />
 
-  ### 1. Thông tin các sự kiện
+  #### 1. Thông tin các sự kiện
 
 - **Thời gian:** 2026-02-07, khoảng 15:44:47
 - **Dịch vụ bị tấn công:** SSH (`sshd`)
@@ -154,7 +154,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
 ---
 
-### 2. Đánh giá
+#### 2. Đánh giá
 
 - IP `192.168.0.30` thực hiện tấn công brute force vào dịch vụ SSH.
 - Hệ thống đã phản ứng kịp thời bằng cách khóa IP, giảm nguy cơ bị xâm nhập trái phép.
@@ -162,7 +162,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
 ---
 
-### 3. Khuyến nghị
+#### 3. Khuyến nghị
 
 - Tiếp tục giám sát log fail2ban và hệ thống để phát hiện các IP tấn công mới.
 - Áp dụng các biện pháp bổ sung:
@@ -170,7 +170,7 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
     - Giới hạn truy cập SSH chỉ từ các IP tin cậy.
     - Thường xuyên cập nhật phần mềm và kiểm tra cấu hình bảo mật SSH.
 
-## Để unban IP, sử dụng lệnh:
+### Để unban IP, sử dụng lệnh:
 
 ```bash
 sudo fail2ban-client set sshd unbanip <banned-ip>
