@@ -14,7 +14,7 @@
 
 ## 3. Sơ đồ mạng
 
-<img width="720" height="392" alt="Fail2Ban-Splunk drawio" src="https://github.com/user-attachments/assets/11f702aa-ebd7-4269-aa66-4395f9aab486" />
+<img width="720" height="392" alt="Fail2Ban-Splunk drawio" src="https://github.com/user-attachments/assets/10d0e6bd-ef16-4ff8-bd5b-3bfd93b3397d" />
 
 ## 4. Các bước thực hiện
 
