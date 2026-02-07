@@ -137,9 +137,43 @@ hydra -l hoang -P passwd.txt 192.168.0.20 ssh
 
 ## **Bước 5: Phân tích log trên Splunk**
 
-- Truy cập giao diện Splunk Server qua trình duyệt: http://127.0.0.1:8000
+- Truy cập giao diện Splunk Server qua trình duyệt: http://127.0.0.1:8000 và Search → chọn index fail2ban_logs và thực hiện truy vấn log
 
-- Splunk Server cũng đã nhận được log và hiển thị log về các sự kiện trên
+- Có thể thấy Splunk Server cũng đã ghi nhận và hiển thị log về các sự kiện trên
 
   <img width="1244" height="623" alt="image" src="https://github.com/user-attachments/assets/066afb07-ca9a-49ae-adfb-4ef42573e5c7" />
+
+  ### 1. Thông tin các sự kiện
+
+- **Thời gian:** 2026-02-07, khoảng 15:44:47
+- **Dịch vụ bị tấn công:** SSH (`sshd`)
+- **Địa chỉ IP tấn công:** `192.168.0.30`
+- **Hành động:**
+    - Fail2ban phát hiện nhiều lần truy cập thất bại từ IP trên.
+    - Đã thực hiện chặn (`ban`) IP `192.168.0.30` vào lúc 15:44:47.
+- **Cơ chế:** Fail2ban theo dõi file log `/var/log/auth.log` để phát hiện các hành vi đăng nhập sai và tự động chặn IP tấn công.
+
+---
+
+### 2. Đánh giá
+
+- IP `192.168.0.30` thực hiện tấn công brute force vào dịch vụ SSH.
+- Hệ thống đã phản ứng kịp thời bằng cách khóa IP, giảm nguy cơ bị xâm nhập trái phép.
+- Fail2ban hoạt động hiệu quả, giúp bảo vệ dịch vụ SSH trước các tấn công phổ biến.
+
+---
+
+### 3. Khuyến nghị
+
+- Tiếp tục giám sát log fail2ban và hệ thống để phát hiện các IP tấn công mới.
+- Áp dụng các biện pháp bổ sung:
+    - Sử dụng xác thực đa yếu tố (MFA) cho SSH.
+    - Giới hạn truy cập SSH chỉ từ các IP tin cậy.
+    - Thường xuyên cập nhật phần mềm và kiểm tra cấu hình bảo mật SSH.
+
+## Để unban IP, sử dụng lệnh:
+
+'''bash
+sudo fail2ban-client set sshd unbanip <banned-ip>
+'''
 
