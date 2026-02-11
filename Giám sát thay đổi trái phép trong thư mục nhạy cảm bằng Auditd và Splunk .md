@@ -34,18 +34,20 @@
 
 ### Bước 2: Cài đặt và cấu hình Auditd
 
-    1. Tải auditd và khởi động auditd
-    ```
-    sudo apt update
-    sudo apt install auditd -y
-    systemctl start auditd
-    sudo systemctl enable auditd
-    ```
+1. Tải auditd và khởi động auditd
+    
+```
+sudo apt update
+sudo apt install auditd -y
+systemctl start auditd
+sudo systemctl enable auditd
+```
 
-    2. Kiểm tra trạng thái auditd
-    ```
-    sudo systemctl status auditd
-    ```
+2. Kiểm tra trạng thái auditd
+    
+```
+sudo systemctl status auditd
+```
 
 ### Bước 3: Cấu hình luật giám sát cho Auditd
 
