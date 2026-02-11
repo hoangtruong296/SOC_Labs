@@ -49,6 +49,24 @@ sudo systemctl enable auditd
 sudo systemctl status auditd
 ```
 
+<img width="852" height="263" alt="image" src="https://github.com/user-attachments/assets/503ba0fb-c79d-4c40-9fae-e8423d9ab19c" />
+
 ### Bước 3: Cấu hình luật giám sát cho Auditd
 
+1. Thêm luật cho Auditd để giám sát thư mục nhạy cảm
+   Mở file cấu hình luật của Auditd:
+   
+```
+sudo nano /etc/audit/rules.d/audit.rules
+```
 
+    Thêm luật sau để giám sát thư mục /etc/ 
+    
+```
+-w /etc/ -p wa -k file_integrity
+```
+
+- Trong đó:
+--`-w`: theo dõi thư mục `/etc/`
+--`-p wa`: giám sát quyền ghi (`w`) và thay đổi thuộc tính (`a`)
+--`-k file_integrity`: keyword để gắn tag cho log
