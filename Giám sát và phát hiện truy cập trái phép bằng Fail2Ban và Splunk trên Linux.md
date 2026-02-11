@@ -19,11 +19,9 @@
 ## 4. Các bước thực hiện
 
 ### Bước 1: Chuẩn bị môi trường
-- Tải và cài đặt máy ảo Ubuntu và Kali Linux tại đây:
-
-  https://ubuntu.com/download/desktop
-
-  https://www.kali.org/get-kali/#kali-virtual-machines
+- Tải và cài đặt máy ảo Ubuntu Server 22.04 và Kali Linux 2025.1a qua VMware Player.
+    - Ubuntu Server: https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso
+    - Kali Linux: https://cdimage.kali.org/kali-2025.1a/kali-linux-2025.1a-vmware-amd64.7z
 - Cài đặt và cấu hình Splunk server và Splunk Forwarder theo hướng dẫn dưới đây:
 
   https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md
