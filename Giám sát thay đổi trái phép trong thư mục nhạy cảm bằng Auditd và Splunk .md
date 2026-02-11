@@ -31,3 +31,22 @@
     - Ubuntu Server: https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso
     - Kali Linux: https://cdimage.kali.org/kali-2025.1a/kali-linux-2025.1a-vmware-amd64.7z
 - Thực hiện cài đặt, cấu hình Splunk Server trên Windows và Splunk Universal Forwarder trên Ubuntu Server theo hướng dẫn tại: [https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab Set up.md](https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md)
+
+### Bước 2: Cài đặt và cấu hình Auditd
+
+    1. Tải auditd và khởi động auditd
+    ```
+    sudo apt update
+    sudo apt install auditd -y
+    systemctl start auditd
+    sudo systemctl enable auditd
+    ```
+
+    2. Kiểm tra trạng thái auditd
+    ```
+    sudo systemctl status auditd
+    ```
+
+### Bước 3: Cấu hình luật giám sát cho Auditd
+
+
