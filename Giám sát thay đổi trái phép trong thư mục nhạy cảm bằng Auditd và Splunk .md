@@ -1,4 +1,4 @@
-# Giám sát thay đổi trái phép trong thư mục nhạy cảm bằng Auditd và Splunk 
+<img width="717" height="472" alt="image" src="https://github.com/user-attachments/assets/6ae9f0c5-82af-4ac9-84fb-1cd7e608815d" /># Giám sát thay đổi trái phép trong thư mục nhạy cảm bằng Auditd và Splunk 
 ## 1. Mục tiêu
 - Cấu hình hệ thống để **giám sát thời gian thực** các thay đổi trái phép (sửa, xóa, thay đổi thuộc tính) trong thư mục quan trọng như `/etc/`.
 - Sử dụng **Auditd** để ghi nhận sự kiện hệ thống liên quan đến thay đổi file.
@@ -86,3 +86,30 @@ sudo auditctl -l
 
 1. Sửa file cấu hình `inputs.conf` để Splunk Forwarder theo dõi log của auditd và gửi tới Splunk Server
 
+- Mở file `inputs.conf`
+  
+```
+sudo nano /opt/splunkforwarder/etc/system/local/inputs.conf
+```
+
+- Thêm các dòng sau
+
+```
+[monitor:///var/log/audit/audit.log]
+sourcetype = auditd
+index = linux_file_integrity
+```
+
+<img width="717" height="472" alt="image" src="https://github.com/user-attachments/assets/796e11b6-7149-47e0-970f-b86063ac042f" />
+
+- Khởi động lại Splunk Forwarder
+
+```
+sudo /opt/splunkforwarder/bin/splunk restart
+```
+
+<img width="855" height="578" alt="image" src="https://github.com/user-attachments/assets/8b3839b0-65f6-4a96-8c46-b4799087a884" />
+
+2. Kiểm tra xem log đã được đẩy lên Splunk Server chưa
+
+   
