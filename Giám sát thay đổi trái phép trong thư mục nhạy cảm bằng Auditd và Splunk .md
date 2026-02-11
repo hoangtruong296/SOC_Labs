@@ -67,6 +67,6 @@ sudo nano /etc/audit/rules.d/audit.rules
 ```
 
 - Trong đó:
---`-w`: theo dõi thư mục `/etc/`
---`-p wa`: giám sát quyền ghi (`w`) và thay đổi thuộc tính (`a`)
---`-k file_integrity`: keyword để gắn tag cho log
+    -`-w`: theo dõi thư mục `/etc/`
+    -`-p wa`: giám sát quyền ghi (`w`) và thay đổi thuộc tính (`a`)
+    -`-k file_integrity`: keyword để gắn tag cho log
