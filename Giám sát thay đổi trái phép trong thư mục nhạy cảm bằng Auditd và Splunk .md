@@ -70,3 +70,19 @@ sudo nano /etc/audit/rules.d/audit.rules
     - `-w`: theo dõi thư mục `/etc/`
     - `-p wa`: giám sát quyền ghi (`w`) và thay đổi thuộc tính (`a`)
     - `-k file_integrity`: keyword để gắn tag cho log
+
+<img width="618" height="417" alt="image" src="https://github.com/user-attachments/assets/82ada69a-7971-49ba-863c-c2f966abb865" />
+
+2. Khởi động lại dịch vụ auditd để áp dụng luật
+
+```
+sudo service auditd restart
+sudo auditctl -l
+```
+
+<img width="513" height="73" alt="image" src="https://github.com/user-attachments/assets/e8b024fb-fe75-4685-ad27-6babf38a2177" />
+
+### Bước 4: Cấu hình Splunk Universal Forwarder
+
+1. Sửa file cấu hình `inputs.conf` để Splunk Forwarder theo dõi log của auditd và gửi tới Splunk Server
+
