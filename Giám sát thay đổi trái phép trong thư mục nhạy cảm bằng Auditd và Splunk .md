@@ -210,4 +210,4 @@ type=PROCTITLE msg=audit(1770909960.943:457): proctitle=6E616E6F002F6574632F7061
 
 5. Kết luận
 
-    Sự kiện ghi nhận cho thấy người dùng `hoang` đã sử dụng đặc quyền `root` để chỉnh sửa file hệ thống `/etc/passwd`, trong đó nano đã xóa file swap tạm thời `/etc/.passwd.swp` sau khi hoàn tất thao tác. Mặc dù     không có dấu hiệu tấn công rõ ràng, đây là hành vi có mức độ rủi ro cao do liên quan trực tiếp đến quản lý người dùng hệ thống. Khuyến nghị tiếp tục giám sát và xác minh tính hợp lệ của thay đổi.
+    Sự kiện ghi nhận cho thấy người dùng `hoang` đã sử dụng đặc quyền `root` để chỉnh sửa file hệ thống `/etc/passwd`, trong đó `nano` đã xóa file swap tạm thời `/etc/.passwd.swp` sau khi hoàn tất thao tác. Mặc dù     không có dấu hiệu tấn công rõ ràng, đây là hành vi có mức độ rủi ro cao do liên quan trực tiếp đến quản lý người dùng hệ thống. Khuyến nghị tiếp tục giám sát và xác minh tính hợp lệ của thay đổi.
