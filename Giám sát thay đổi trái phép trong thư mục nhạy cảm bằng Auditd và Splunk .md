@@ -36,7 +36,7 @@
 
 1. Tải auditd và khởi động auditd
     
-```
+```bash
 sudo apt update
 sudo apt install auditd -y
 systemctl start auditd
