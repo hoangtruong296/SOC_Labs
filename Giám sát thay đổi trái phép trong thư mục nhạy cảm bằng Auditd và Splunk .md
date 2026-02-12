@@ -132,3 +132,81 @@ sudo /opt/splunkforwarder/bin/splunk restart
 ```
 sudo ausearch -k file_integrity
 ```
+
+<img width="816" height="508" alt="image" src="https://github.com/user-attachments/assets/4c6b4e3e-ebbb-4694-96e5-a1067736f7a1" />
+
+
+### Bước 6: Phân tích logs trên Splunk
+1. Truy vấn tìm sự kiện integrity
+
+```
+index="linux_file_integrity" key="file_integrity"
+```
+
+<img width="1828" height="662" alt="image" src="https://github.com/user-attachments/assets/3954ea78-8c6c-4d15-8468-34b3545bb55e" />
+
+2. Phân tích 1 sự kiện cụ thể
+- Sự kiện vào thời gian (2/12/26 10:26:00.943 PM)
+
+<img width="1828" height="590" alt="image" src="https://github.com/user-attachments/assets/16da0f7e-cd48-4814-8a1e-b299044a8dda" />
+
+```
+type=SYSCALL msg=audit(1770909960.943:457): arch=c000003e syscall=87 success=yes exit=0 a0=6401057ab700 a1=80100010 a2=1 a3=0 items=2 ppid=7421 pid=7422 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=4 comm="nano" exe="/usr/bin/nano" subj=unconfined key="file_integrity"ARCH=x86_64 SYSCALL=unlink AUID="hoang" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"
+```
+
+```
+type=CWD msg=audit(1770909960.943:457): cwd="/home/hoang"
+type=PATH msg=audit(1770909960.943:457): item=0 name="/etc/" inode=917505 dev=08:02 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0OUID="root" OGID="root"
+type=PATH msg=audit(1770909960.943:457): item=1 name="/etc/.passwd.swp" inode=918363 dev=08:02 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0OUID="root" OGID="root"
+```
+
+```
+type=PROCTITLE msg=audit(1770909960.943:457): proctitle=6E616E6F002F6574632F706173737764
+```
+
+#### Hành động chỉnh sửa file
+**Thời gian sự kiện:**  `1770909960.943:457` tức `2/12/26 10:26:00.943 PM`
+1. Tóm tắt sự kiện
+Tại thời điểm ghi nhận, một tiến trình do người dùng hoang khởi tạo đã thực thi trình soạn thảo nano để chỉnh sửa file hệ thống /etc/passwd với quyền root. Trong quá trình này, tiến trình đã xóa file swap tạm thời /etc/.passwd.swp bằng system call unlink. Hành động được thực hiện thành công (success=yes, exit=0).
+
+2. Chi tiết kỹ thuật
+- Lệnh thực thi: `nano /etc/passwd`
+- Tên tiến trình: `nano`
+- Đường dẫn thực thi: `/usr/bin/nano`
+- PID: `7422` (cha: `7421`)
+- Thư mục làm việc (CWD): `/home/hoang`
+- File bị xóa: `/etc/.passwd.swp`
+- Thư mục cha: `/etc/`
+- syscall: `unlink` (`syscall=87`)
+- Kiến trúc: x86_64
+- Người dùng thật (AUID): `hoang` (auid=1000)
+- Người thực thi: `root` (uid=0, euid=0, fsuid=0)
+- TTY: `pts1`
+- Audit rule key: `file_integrity`
+
+3. Phân tích và đánh giá
+- Mặc dù tiến trình chạy với quyền root, audit log cho thấy người khởi tạo phiên ban đầu là `hoang`, cho thấy nhiều khả năng hành động được thực hiện thông qua `sudo`.
+- File bị xóa (`/etc/.passwd.swp`) là file swap tạm thời do nano tạo ra khi chỉnh sửa file `/etc/passwd`, không phải file cấu hình chính.
+- Việc chỉnh sửa `/etc/passwd` là hành vi nhạy cảm, vì file này liên quan trực tiếp đến quản lý tài khoản người dùng và có thể bị lợi dụng để:
+    - Tạo user trái phép
+    - Thay đổi UID/GID
+    - Cấp shell hoặc đặc quyền cao
+- Không phát hiện lỗi hệ thống hoặc hành vi bị từ chối truy cập. Toàn bộ chuỗi hành động hoàn tất thành công.
+
+4. Kiến nghị
+
+- Xác minh nội dung thay đổi của /etc/passwd, đối chiếu với bản sao lưu hoặc baseline integrity nếu có.
+- Kiểm tra log sudo và xác thực người dùng, ví dụ:
+    - `/var/log/auth.log`
+    - `ausearch -au hoang`
+- Nếu không có thay đổi hợp lệ được phê duyệt:
+    → Xem xét lại quyền sudo của user `hoang`
+    → Áp dụng nguyên tắc least privilege
+- Tăng cường giám sát auditd với các rule theo dõi:
+    - `execve` khi truy cập `/etc/passwd`
+    - `unlink`, `open`, `chmod`, `chown` tác động đến `/etc/*`
+- Tích hợp log auditd vào SIEM (Wazuh/Splunk) để tạo cảnh báo real-time khi có chỉnh sửa file hệ thống quan trọng.
+
+5. Kết luận
+
+Sự kiện ghi nhận cho thấy người dùng `hoang` đã sử dụng đặc quyền `root` để chỉnh sửa file hệ thống `/etc/passwd`, trong đó nano đã xóa file swap tạm thời `/etc/.passwd.swp` sau khi hoàn tất thao tác. Mặc dù không có dấu hiệu tấn công rõ ràng, đây là hành vi có mức độ rủi ro cao do liên quan trực tiếp đến quản lý người dùng hệ thống. Khuyến nghị tiếp tục giám sát và xác minh tính hợp lệ của thay đổi.
