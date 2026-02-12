@@ -1,4 +1,4 @@
-<img width="717" height="472" alt="image" src="https://github.com/user-attachments/assets/6ae9f0c5-82af-4ac9-84fb-1cd7e608815d" /># Giám sát thay đổi trái phép trong thư mục nhạy cảm bằng Auditd và Splunk 
+# Giám sát thay đổi trái phép trong thư mục nhạy cảm bằng Auditd và Splunk 
 ## 1. Mục tiêu
 - Cấu hình hệ thống để **giám sát thời gian thực** các thay đổi trái phép (sửa, xóa, thay đổi thuộc tính) trong thư mục quan trọng như `/etc/`.
 - Sử dụng **Auditd** để ghi nhận sự kiện hệ thống liên quan đến thay đổi file.
@@ -114,7 +114,15 @@ sudo /opt/splunkforwarder/bin/splunk restart
 
 <img width="1831" height="672" alt="image" src="https://github.com/user-attachments/assets/a8d4eb38-6619-476d-9ecd-7920e8af291c" />
 
-### Bước 5: Mô phỏng thay đổi trái phép trong thư mục /etc/
+### Bước 5: Mô phỏng thay đổi trái phép trong thư mục `/etc/`
 
 1. Chỉnh sửa file
+- Chỉnh sửa file `/etc/passwd` để mô phỏng việc thay đổi trái phép
+
+<img width="810" height="302" alt="image" src="https://github.com/user-attachments/assets/081966f3-c6c1-43aa-883b-d9904a55282c" />
+
+2. Xóa file
+- Tạo 1 file mới và xóa file đó trong thư mục `/etc/`
+
+<img width="424" height="52" alt="image" src="https://github.com/user-attachments/assets/d6b80413-f059-40b7-8a81-7849ccc76bea" />
 
