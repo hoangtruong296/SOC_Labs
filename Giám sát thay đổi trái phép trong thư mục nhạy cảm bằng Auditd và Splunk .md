@@ -122,7 +122,13 @@ sudo /opt/splunkforwarder/bin/splunk restart
 <img width="810" height="302" alt="image" src="https://github.com/user-attachments/assets/081966f3-c6c1-43aa-883b-d9904a55282c" />
 
 2. Xóa file
-- Tạo 1 file mới và xóa file đó trong thư mục `/etc/`
+- Thực hiện 1 file mới và xóa file đó trong thư mục `/etc/`
 
 <img width="424" height="52" alt="image" src="https://github.com/user-attachments/assets/d6b80413-f059-40b7-8a81-7849ccc76bea" />
 
+3. Truy xuất log với auditd
+- Dùng `ausearch` dể xem logs cho những hành động thay đổi trái phép trên
+
+```
+sudo ausearch -k file_integrity
+```
