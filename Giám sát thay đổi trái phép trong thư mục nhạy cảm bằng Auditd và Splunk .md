@@ -112,4 +112,9 @@ sudo /opt/splunkforwarder/bin/splunk restart
 
 2. Kiểm tra xem log đã được đẩy lên Splunk Server chưa
 
-   
+<img width="1831" height="672" alt="image" src="https://github.com/user-attachments/assets/a8d4eb38-6619-476d-9ecd-7920e8af291c" />
+
+### Bước 5: Mô phỏng thay đổi trái phép trong thư mục /etc/
+
+1. Chỉnh sửa file
+
