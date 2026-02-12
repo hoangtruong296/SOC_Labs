@@ -168,7 +168,7 @@ type=PROCTITLE msg=audit(1770909960.943:457): proctitle=6E616E6F002F6574632F7061
 **Thời gian sự kiện:**  `1770909960.943:457` tức `2/12/26 10:26:00.943 PM`
 1. Tóm tắt sự kiện
 
-   Tại thời điểm ghi nhận, một tiến trình do người dùng hoang khởi tạo đã thực thi trình soạn thảo nano để chỉnh sửa file hệ thống /etc/passwd với quyền root. Trong quá trình này, tiến trình đã xóa file swap    tạm thời /etc/.passwd.swp bằng system call unlink. Hành động được thực hiện thành công (success=yes, exit=0).
+   Tại thời điểm ghi nhận, một tiến trình do người dùng `hoang` khởi tạo đã thực thi trình soạn thảo `nano` để chỉnh sửa file hệ thống `/etc/passwd` với quyền root. Trong quá trình này, tiến trình đã xóa file swap tạm thời `/etc/.passwd.swp` bằng system call `unlink`. Hành động được thực hiện thành công (`success=yes`, `exit=0`).
 
 3. Chi tiết kỹ thuật
 - Lệnh thực thi: `nano /etc/passwd`
