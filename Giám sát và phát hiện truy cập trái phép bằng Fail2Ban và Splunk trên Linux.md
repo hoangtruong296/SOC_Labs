@@ -1,3 +1,4 @@
+# Giám sát và phát hiện truy cập trái phép bằng Fail2Ban và Splunk trên Linux
 ## 1. Mục tiêu
 - Thiết lập môi trường theo dõi và ghi nhận các lần thử truy cập trái phép vào dịch vụ SSH.
 - Cấu hình **Fail2Ban** để phát hiện và chặn các địa chỉ IP độc hại.
