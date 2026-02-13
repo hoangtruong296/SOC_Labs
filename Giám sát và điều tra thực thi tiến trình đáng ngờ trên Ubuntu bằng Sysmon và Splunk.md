@@ -225,7 +225,6 @@ sudo nano /etc/sysmon/sysmon.conf
     - Tạo cron job
     - Tạo hoặc sửa systemd service
     - Chèn script khởi động (/etc/init.d, /etc/rc.d)
-  
   - Privilege Escalation
     - Thay đổi permission (chmod, chown)
     - Lạm dụng setuid / setgid
@@ -243,4 +242,10 @@ sudo nano /etc/sysmon/sysmon.conf
   - Impact
     - Ghi đè dữ liệu bằng dd (data destruction)
 
+- Áp dụng cấu hình và khởi động lại dịch vụ
+
+```
+sudo sysmon -i sysmon.conf
+sudo systemctl restart sysmon
+```
 
