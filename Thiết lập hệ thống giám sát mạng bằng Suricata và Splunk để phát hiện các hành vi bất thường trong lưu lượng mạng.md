@@ -16,3 +16,45 @@
 
 <img width="750" height="392" alt="Suricata+splunk" src="https://github.com/user-attachments/assets/93aff2d7-7bc9-4e42-bc34-aa9933492374" />
 
+## 4. Các bước tiến hành
+
+### Bước 1: Chuẩn bị môi trường
+
+- Tải và cài đặt máy ảo Ubuntu Server 22.04 và Kali Linux 2025.1a qua VMware Player.
+    - Ubuntu Server: https://releases.ubuntu.com/jammy/ubuntu-22.04.5-live-server-amd64.iso
+    - Kali Linux: https://cdimage.kali.org/kali-2025.1a/kali-linux-2025.1a-vmware-amd64.7z
+- Thực hiện cài đặt, cấu hình Splunk Server trên Windows và Splunk Universal Forwarder trên Ubuntu Server theo hướng dẫn tại: [https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab Set up.md](https://github.com/0xrajneesh/90-days-security-challenge/blob/main/Challenge%231/Lab%20Set%20up.md)
+
+### Bước 2: Cài đặt và cấu hình Suricata
+
+1. **Cài đặt Suricata**
+
+```
+sudo add-apt-repository ppa:oisf/suricata-stable
+sudo apt-get update
+sudo apt-get install suricata -y
+```
+
+<img width="1143" height="472" alt="image" src="https://github.com/user-attachments/assets/3b75c933-4b20-470c-9635-686da8579863" />
+
+2. **Tải các quy tắc Emerging threats**
+
+```
+cd /tmp/ 
+curl -LO https://rules.emergingthreats.net/open/suricata-7.0.3/emerging.rules.tar.gz
+sudo tar -xvzf emerging.rules.tar.gz 
+sudo mkdir /etc/suricata/rules 
+sudo mv rules/*.rules /etc/suricata/rules/
+sudo chmod 640 /etc/suricata/rules/*.rules
+```
+
+<img width="971" height="418" alt="image" src="https://github.com/user-attachments/assets/f73cbbdd-80e4-4453-bd4a-5c18d49c8124" />
+
+3. **Cập nhật cấu hình Suricata**
+
+- Mở tệp cấu hình Suricata
+
+```
+sudo nano /etc/suricata/suricata.yaml
+```
+
