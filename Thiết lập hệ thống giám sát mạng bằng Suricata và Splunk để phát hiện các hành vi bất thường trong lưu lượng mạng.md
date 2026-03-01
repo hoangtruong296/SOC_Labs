@@ -14,4 +14,5 @@
 
 ## 3. Sơ đồ mạng
 
-![Uploading Suricata+splunk.png…]()
+<img width="750" height="392" alt="Suricata+splunk" src="https://github.com/user-attachments/assets/93aff2d7-7bc9-4e42-bc34-aa9933492374" />
+
