@@ -76,3 +76,33 @@ sudo systemctl status suricata
 
 <img width="944" height="287" alt="image" src="https://github.com/user-attachments/assets/9a764aae-4494-43fc-ba8c-e40cd613e3a5" />
 
+## Bước 3: Cấu hình Splunk Forwarder theo dõi log của Suricata
+
+1. **Chỉnh sửa tệp cấu hình đầu vào của Splunk**
+
+- Mở file cấu hình
+
+```
+sudo nano /opt/splunkforwarder/etc/system/local/inputs.conf
+```
+
+- Thêm nội dung sau để giám sát log của Suricata
+
+```
+[monitor:///var/log/suricata/eve.json]
+sourcetype = suricata
+index = network_security_logs
+```
+
+2. **Lưu và khởi động lại Splunk Forwarder**
+
+```
+sudo /opt/splunkforwarder/bin/splunk restart
+```
+
+3. **Xác minh chuyển tiếp log thành công**
+
+- Ở giao diện quản lý Splunk, tạo index mới để nhận log từ Suricata
+
+<img width="809" height="570" alt="image" src="https://github.com/user-attachments/assets/6e42928d-259c-4e64-8aca-2546b5e2620c" />
+
