@@ -76,7 +76,7 @@ sudo systemctl status suricata
 
 <img width="944" height="287" alt="image" src="https://github.com/user-attachments/assets/9a764aae-4494-43fc-ba8c-e40cd613e3a5" />
 
-## Bước 3: Cấu hình Splunk Forwarder theo dõi log của Suricata
+### Bước 3: Cấu hình Splunk Forwarder theo dõi log của Suricata
 
 1. **Chỉnh sửa tệp cấu hình đầu vào của Splunk**
 
@@ -105,4 +105,17 @@ sudo /opt/splunkforwarder/bin/splunk restart
 - Trên Splunk server, tạo index mới để nhận log từ Suricata
 
 <img width="809" height="570" alt="image" src="https://github.com/user-attachments/assets/6e42928d-259c-4e64-8aca-2546b5e2620c" />
+
+- Thực hiện ping đến Ubuntu(cài Splunk Forwader) và quan sát phía Splunk server, có thể thấy Splunk đã nhận log từ Suricata
+
+<img width="1186" height="648" alt="image" src="https://github.com/user-attachments/assets/79aaeada-178b-403a-b761-39a916fe9e0e" />
+
+### Bước 4: Mô phỏng các cuộc tấn công mạng
+
+1. **Quét cổng bằng Nmap**
+- Sử dụng `nmap` chế độ quét SYN để tìm các cổng mở trên máy nạn nhân. Hành vi này thường được sử dụng trong giai đoạn reconnaissance và có thể bị phát hiện bởi IDS là hành vi nguy hại
+
+```
+nmap -sS -T4 -p- 192.168.100.20
+```
 
