@@ -58,3 +58,21 @@ sudo chmod 640 /etc/suricata/rules/*.rules
 sudo nano /etc/suricata/suricata.yaml
 ```
 
+- Cập nhật HOME_NET, EXTERNAL_NET, defaut-rule-path, rule-files
+
+<img width="651" height="361" alt="image" src="https://github.com/user-attachments/assets/c75d35fd-90ab-4a76-b8f4-b16d66b0edf4" />
+
+<img width="612" height="295" alt="image" src="https://github.com/user-attachments/assets/62aa1950-99c8-4073-8c8e-19c6abf4ca78" />
+
+
+4. **Khởi động lại dịch vụ Suricata**
+
+```
+sudo systemctl restart suricata
+sudo systemctl start suricata
+sudo systemctl enable suricata
+sudo systemctl status suricata
+```
+
+<img width="944" height="287" alt="image" src="https://github.com/user-attachments/assets/9a764aae-4494-43fc-ba8c-e40cd613e3a5" />
+
