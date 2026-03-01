@@ -102,7 +102,7 @@ sudo /opt/splunkforwarder/bin/splunk restart
 
 3. **Xác minh chuyển tiếp log thành công**
 
-- Ở giao diện quản lý Splunk, tạo index mới để nhận log từ Suricata
+- Trên Splunk server, tạo index mới để nhận log từ Suricata
 
 <img width="809" height="570" alt="image" src="https://github.com/user-attachments/assets/6e42928d-259c-4e64-8aca-2546b5e2620c" />
 
