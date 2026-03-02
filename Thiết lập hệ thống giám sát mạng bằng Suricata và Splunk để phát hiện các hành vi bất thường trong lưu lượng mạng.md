@@ -239,6 +239,16 @@ Rule này được thiết kế để phát hiện các hành vi probing hoặc 
 
 Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và không có phản hồi từ phía server. Hành vi này phù hợp với kỹ thuật SYN scan (`nmap -sS`), thường được sử dụng trong giai đoạn trinh sát hệ thống.
 
+7. MITRE ATT&CK Mapping
+| Trường                         | Giá trị                            |
+| ------------------------------ | ---------------------------------- |
+| Tactic                         | Reconnaissance (TA0043)            |
+| Technique                      | Active Scanning (T1595)            |
+| Sub-technique                  | Vulnerability Scanning (T1595.002) |
+| Mục tiêu                       | Database Service                   |
+| Mức độ tin cậy                 | High                               |
+| Mức độ nghiêm trọng (metadata) | Medium                             |
+
 
 ### Log của hành vi trích xuất thông tin nhạy cảm
 
