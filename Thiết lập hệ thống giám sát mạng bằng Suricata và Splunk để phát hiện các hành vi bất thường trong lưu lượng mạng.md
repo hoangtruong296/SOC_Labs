@@ -391,7 +391,7 @@ Lưu lượng cho thấy:
 - Tổng dung lượng hơn 5 KB
 - Phù hợp với kích thước file /etc/passwd sau khi mã hóa base64
 
-8. **MITRE ATT&CK Mapping**
+7. **MITRE ATT&CK Mapping**
 
 | Trường                              | Giá trị                                                          |
 | ----------------------------------- | ---------------------------------------------------------------- |
@@ -403,7 +403,7 @@ Lưu lượng cho thấy:
 | Mức độ nghiêm trọng (metadata rule) | Major                                                            |
 
 
-9. **Đánh giá và phân tích**
+8. **Đánh giá và phân tích**
 
 - Việc sử dụng base64 cho thấy ý định che giấu nội dung truyền đi.
 - Sử dụng nc giúp attacker tạo kênh truyền dữ liệu trực tiếp không mã hóa.
