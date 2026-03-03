@@ -40,3 +40,7 @@
 sysmon64.exe -i sysmonconfig-export.xml
 ```
 
+- Nếu thành công, Sysmon sẽ bắt đầu ghi lại các sự kiện vào Windows Event Log, mục **"Microsoft-Windows-Sysmon/Operational"**.
+- **Kiểm tra:** Mở Event Viewer > Applications and Services Logs > Microsoft > Windows > Sysmon > Operational.
+
+
