@@ -102,6 +102,8 @@ Sử dụng powershell để thực hiện các mô phỏng.
 New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "MalwareTest" -Value "C:\malwaretest.exe"
 ```
 
+<img width="1183" height="161" alt="image" src="https://github.com/user-attachments/assets/8fb96b5c-c8f7-4018-aee9-4a834f77c9fe" />
+
 - **Ý nghĩa:**
     - **Tạo một giá trị (registry value)** có tên là `MalwareTest` tại key `Run` trong nhánh `HKCU` (người dùng hiện tại).
     - Gán giá trị là `"C:\malwaretest.exe"`.
@@ -114,6 +116,8 @@ New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Na
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "DisableIPSourceRouting" -Value 1
 ```
 
+<img width="1171" height="40" alt="image" src="https://github.com/user-attachments/assets/8abb745b-53b9-451a-b6a7-ce3e4ef464c0" />
+
 - **Ý nghĩa:**
     - Thay đổi giá trị `DisableIPSourceRouting` thành `1` trong key `Tcpip Parameters` của `HKLM` (toàn bộ hệ thống).
 - **Tác dụng:**
@@ -125,9 +129,80 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run\MalwareSimulation"
 ```
 
+
 - **Ý nghĩa:**
     - Xóa giá trị `MalwareSimulation` trong `Run Key` của người dùng hiện tại.
 - **Tác dụng:**
     - Nếu có một malware đã tạo key này để chạy mỗi khi user đăng nhập, thì lệnh này **xóa bỏ cơ chế persistence đó**.
     - **Defender hoặc analyst** để **gỡ mã độc**
     - Hoặc ngược lại, **malware tự xóa dấu vết** để tránh phát hiện (rare)
+
+## Bước 5: Phân tích log trên Splunk
+
+1. **Thêm persistence**
+
+```
+03/05/2026 01:56:19.917 PM
+LogName=Microsoft-Windows-Sysmon/Operational
+EventCode=13
+EventType=4
+ComputerName=truonghuyhoang-b22dcat130-VPNClient
+User=NOT_TRANSLATED
+Sid=S-1-5-18
+SidType=0
+SourceName=Microsoft-Windows-Sysmon
+Type=Information
+RecordNumber=42641
+Keywords=None
+TaskCategory=Registry value set (rule: RegistryEvent)
+OpCode=Info
+Message=Registry value set:
+RuleName: technique_id=T1547.001,technique_name=Registry Run Keys / Start Folder
+EventType: SetValue
+UtcTime: 2026-03-05 06:56:19.908
+ProcessGuid: {3478df39-281d-69a9-9505-000000003800}
+ProcessId: 6408
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+TargetObject: HKU\S-1-5-21-3253799767-270482447-3232193585-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareTest
+Details: C:\malwaretest.exe
+User: TRUONGHUYHOANG-\Hoang
+
+    host = truonghuyhoang-b22dcat130-VPNClient
+    source = WinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype = XmlWinEventLog:Sysmon
+```
+
+2. **Chỉnh sửa Registry**
+```
+03/05/2026 01:57:57.848 PM
+LogName=Microsoft-Windows-Sysmon/Operational
+EventCode=13
+EventType=4
+ComputerName=truonghuyhoang-b22dcat130-VPNClient
+User=NOT_TRANSLATED
+Sid=S-1-5-18
+SidType=0
+SourceName=Microsoft-Windows-Sysmon
+Type=Information
+RecordNumber=42645
+Keywords=None
+TaskCategory=Registry value set (rule: RegistryEvent)
+OpCode=Info
+Message=Registry value set:
+RuleName: -
+EventType: SetValue
+UtcTime: 2026-03-05 06:57:57.846
+ProcessGuid: {3478df39-281d-69a9-9505-000000003800}
+ProcessId: 6408
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+TargetObject: HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\DisableIPSourceRouting
+Details: DWORD (0x00000001)
+User: TRUONGHUYHOANG-\Hoang
+
+    host = truonghuyhoang-b22dcat130-VPNClient
+    source = WinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype = XmlWinEventLog:Sysmon
+```
+
+
+
