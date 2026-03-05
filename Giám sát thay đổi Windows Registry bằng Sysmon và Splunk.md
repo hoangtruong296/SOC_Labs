@@ -205,5 +205,34 @@ User: TRUONGHUYHOANG-\Hoang
     sourcetype = XmlWinEventLog:Sysmon
 ```
 
+3. **Xóa một khóa registry**
 
+```
+03/05/2026 02:16:51.611 PM
+LogName=Microsoft-Windows-Sysmon/Operational
+EventCode=12
+EventType=4
+ComputerName=truonghuyhoang-b22dcat130-VPNClient
+User=NOT_TRANSLATED
+Sid=S-1-5-18
+SidType=0
+SourceName=Microsoft-Windows-Sysmon
+Type=Information
+RecordNumber=42667
+Keywords=None
+TaskCategory=Registry object added or deleted (rule: RegistryEvent)
+OpCode=Info
+Message=Registry object added or deleted:
+RuleName: technique_id=T1547.001,technique_name=Registry Run Keys / Start Folder
+EventType: DeleteKey
+UtcTime: 2026-03-05 07:16:51.610
+ProcessGuid: {3478df39-281d-69a9-9505-000000003800}
+ProcessId: 6408
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+TargetObject: HKU\S-1-5-21-3253799767-270482447-3232193585-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareSimulation
+User: TRUONGHUYHOANG-\Hoang
 
+    host = truonghuyhoang-b22dcat130-VPNClient
+    source = WinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype = XmlWinEventLog:Sysmon
+```
