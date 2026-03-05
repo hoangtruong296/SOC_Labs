@@ -186,7 +186,7 @@ User: TRUONGHUYHOANG-\Hoang
 
 📌 Process thực thi
 
-Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Image: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
 
 Process ID: 6408
 
@@ -196,13 +196,17 @@ Process GUID: {3478df39-281d-69a9-9505-000000003800}
 
 Tiến trình PowerShell đã thực hiện thao tác SetValue trên Registry tại vị trí:
 
-HKU\S-1-5-21-3253799767-270482447-3232193585-1001\
-SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareTest
+```
+HKU\S-1-5-21-3253799767-270482447-3232193585-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareTest
+```
 
 Đây là hành vi thiết lập một Registry Run Key, thường được sử dụng để duy trì persistence.
 
 📌 Giá trị thiết lập
+
+```
 C:\malwaretest.exe
+```
 
 Điều này đồng nghĩa với việc file malwaretest.exe sẽ tự động được khởi chạy mỗi khi người dùng đăng nhập.
 
@@ -214,30 +218,44 @@ TaskCategory: Registry value set
 
 EventType: SetValue
 
-Theo cơ chế của Windows:
+Theo cơ chế của Windows: `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
 
-HKCU\Software\Microsoft\Windows\CurrentVersion\Run
-
-Tương đương với:
-
-HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\Run
+Tương đương với: `HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\Run`
 
 Do đó, persistence này áp dụng cho user cụ thể (Hoang), không phải toàn hệ thống.
 
 Sysmon rule đã gắn nhãn:
 
+```
 technique_id=T1547.001
 technique_name=Registry Run Keys / Start Folder
+```
 
 📌 Mapping MITRE ATT&CK
 
-Theo MITRE ATT&CK:
+- Technique ID: T1547.001
+- Technique Name: Boot or Logon Autostart Execution – Registry Run Keys / Startup Folder
+- Tactic: Persistence
 
-Technique ID: T1547.001
+📌 Mức độ nghi vấn: Trung bình đến Cao, phụ thuộc ngữ cảnh:
 
-Technique Name: Boot or Logon Autostart Execution – Registry Run Keys / Startup Folder
+PowerShell chỉnh sửa Run Key là hành vi thường thấy trong:
 
-Tactic: Persistence
+- Malware
+- Script persistence
+- Red team simulation
+
+📌 Đề xuất điều tra (theo góc nhìn SOC thực tế)
+
+- Kiểm tra sự tồn tại thực tế của file: `C:\malwaretest.exe`
+- Kiểm tra hash file (SHA256)
+- Kiểm tra parent process của PowerShell
+- Xác định có command-line bất thường hay không
+- Kiểm tra có hành vi:
+    - Network connection
+    - Process injection
+    - Additional registry changes
+Nếu không nằm trong change management hợp lệ → đáng điều tra
 
 2. **Chỉnh sửa Registry**
 ```
