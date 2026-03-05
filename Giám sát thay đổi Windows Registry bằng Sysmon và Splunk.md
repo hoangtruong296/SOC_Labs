@@ -173,6 +173,72 @@ User: TRUONGHUYHOANG-\Hoang
     sourcetype = XmlWinEventLog:Sysmon
 ```
 
+**Sự kiện thiết lập Registry Run Key – Dấu hiệu tạo Persistence**
+
+📌 Thời gian (UTC): 2026-03-05 06:56:19
+
+📌 Thời gian (giờ địa phương – UTC+7): ~13:56:19
+
+📌 Hostname: truonghuyhoang-b22dcat130-VPNClient
+
+📌 User thực hiện: TRUONGHUYHOANG-\Hoang
+(SID: S-1-5-21-3253799767-270482447-3232193585-1001)
+
+📌 Process thực thi
+
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
+Process ID: 6408
+
+Process GUID: {3478df39-281d-69a9-9505-000000003800}
+
+📌 Hành vi
+
+Tiến trình PowerShell đã thực hiện thao tác SetValue trên Registry tại vị trí:
+
+HKU\S-1-5-21-3253799767-270482447-3232193585-1001\
+SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareTest
+
+Đây là hành vi thiết lập một Registry Run Key, thường được sử dụng để duy trì persistence.
+
+📌 Giá trị thiết lập
+C:\malwaretest.exe
+
+Điều này đồng nghĩa với việc file malwaretest.exe sẽ tự động được khởi chạy mỗi khi người dùng đăng nhập.
+
+📌 Phân tích kỹ thuật
+
+EventCode: 13
+
+TaskCategory: Registry value set
+
+EventType: SetValue
+
+Theo cơ chế của Windows:
+
+HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+
+Tương đương với:
+
+HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\Run
+
+Do đó, persistence này áp dụng cho user cụ thể (Hoang), không phải toàn hệ thống.
+
+Sysmon rule đã gắn nhãn:
+
+technique_id=T1547.001
+technique_name=Registry Run Keys / Start Folder
+
+📌 Mapping MITRE ATT&CK
+
+Theo MITRE ATT&CK:
+
+Technique ID: T1547.001
+
+Technique Name: Boot or Logon Autostart Execution – Registry Run Keys / Startup Folder
+
+Tactic: Persistence
+
 2. **Chỉnh sửa Registry**
 ```
 03/05/2026 01:57:57.848 PM
