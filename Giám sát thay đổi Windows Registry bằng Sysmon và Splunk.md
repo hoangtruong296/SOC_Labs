@@ -43,4 +43,51 @@ sysmon64.exe -i sysmonconfig-export.xml
 - Nếu thành công, Sysmon sẽ bắt đầu ghi lại các sự kiện vào Windows Event Log, mục **"Microsoft-Windows-Sysmon/Operational"**.
 - **Kiểm tra:** Mở Event Viewer > Applications and Services Logs > Microsoft > Windows > Sysmon > Operational.
 
+<img width="1498" height="448" alt="image" src="https://github.com/user-attachments/assets/945f8347-c78c-4f82-bb19-f54fbaf9839e" />
 
+## Bước 3: Cấu hình Splunk Forwarder theo dõi và gửi log của Sysmon
+
+1. **Mở file inputs.conf của Splunk Forwarder**
+
+```
+C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf
+```
+
+2. **Thêm nội dung sau**
+
+```
+[WinEventLog://Microsoft-Windows-Sysmon/Operational]
+disabled = false
+index = sysmon_logs
+sourcetype = XmlWinEventLog:Sysmon
+renderXml = false
+```
+
+<img width="420" height="410" alt="image" src="https://github.com/user-attachments/assets/bf72b302-034b-49cc-be4e-1779f879f72d" />
+
+3. **Khởi động lại Splunk Forwarder**
+
+```
+C:\WINDOWS\system32>"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" restart
+```
+
+4. **Kiểm tra xem Splunk nhận được log của Sysmon**
+
+
+
+- **Lưu ý:** Nếu Splunk không nhận được log của **Sysmon** mà xem thủ công log của **Sysmon** trên máy Windows vẫn có thì khả năng là do Splunk Forwarder **không chạy bằng Local System Account** nên không đủ quyền đọc log Event Viewer ở `Microsoft-Windows-Sysmon/Operational`
+- **Cách khắc phục:**
+    - Kiểm tra lại account đang chạy Splunk Forwarder bằng powershell:
+    
+    ```powershell
+    Get-WmiObject win32_service | Where-Object { $_.Name -eq "SplunkForwarder" } | Select-Object StartName
+    
+    ```
+    
+    - Nếu không thấy `LocalSystem`, bạn cần sửa:
+        - Nhấn `Win + R`, nhập: `services.msc`
+        - Tìm dịch vụ **"SplunkForwarder"**
+        - Chuột phải → `Properties`
+        - Chuyển sang tab **Log On**
+        - Chọn: Local System account
+        - Khởi động lại Splunk Forwarder
