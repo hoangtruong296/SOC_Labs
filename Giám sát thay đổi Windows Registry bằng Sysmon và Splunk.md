@@ -73,7 +73,7 @@ C:\WINDOWS\system32>"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" r
 
 4. **Kiểm tra xem Splunk nhận được log của Sysmon**
 
-
+<img width="1431" height="697" alt="image" src="https://github.com/user-attachments/assets/9a7ffacf-9255-4f29-81dc-05eea1fd8498" />
 
 - **Lưu ý:** Nếu Splunk không nhận được log của **Sysmon** mà xem thủ công log của **Sysmon** trên máy Windows vẫn có thì khả năng là do Splunk Forwarder **không chạy bằng Local System Account** nên không đủ quyền đọc log Event Viewer ở `Microsoft-Windows-Sysmon/Operational`
 - **Cách khắc phục:**
@@ -91,3 +91,43 @@ C:\WINDOWS\system32>"C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe" r
         - Chuyển sang tab **Log On**
         - Chọn: Local System account
         - Khởi động lại Splunk Forwarder
+
+## Bước 4: Mô phỏng các thay đổi độc hại với Windows Registry
+
+Sử dụng powershell để thực hiện các mô phỏng.
+
+1. **Thêm một mục persistence giả**
+
+```powershell
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "MalwareTest" -Value "C:\malwaretest.exe"
+```
+
+- **Ý nghĩa:**
+    - **Tạo một giá trị (registry value)** có tên là `MalwareTest` tại key `Run` trong nhánh `HKCU` (người dùng hiện tại).
+    - Gán giá trị là `"C:\malwaretest.exe"`.
+- **Tác dụng:**
+    - Đây là **một kỹ thuật persistence**: mỗi khi người dùng **log in**, Windows sẽ **tự động chạy file `C:\malwaretest.exe`**.
+    - `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` là một **Run Key phổ biến** dùng để auto-start chương trình khi đăng nhập.
+2. **Sửa đổi một cài đặt bảo mật quan trọng**
+
+```powershell
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" -Name "DisableIPSourceRouting" -Value 1
+```
+
+- **Ý nghĩa:**
+    - Thay đổi giá trị `DisableIPSourceRouting` thành `1` trong key `Tcpip Parameters` của `HKLM` (toàn bộ hệ thống).
+- **Tác dụng:**
+    - **Vô hiệu hóa IP source routing**, một kỹ thuật có thể bị lợi dụng để thực hiện **spoofing attack** hoặc **network reconnaissance**.
+    - Đây là **một thay đổi cấu hình an ninh mạng ở cấp hệ thống**.
+3. **Xóa một khóa registry**
+
+```powershell
+Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run\MalwareSimulation"
+```
+
+- **Ý nghĩa:**
+    - Xóa giá trị `MalwareSimulation` trong `Run Key` của người dùng hiện tại.
+- **Tác dụng:**
+    - Nếu có một malware đã tạo key này để chạy mỗi khi user đăng nhập, thì lệnh này **xóa bỏ cơ chế persistence đó**.
+    - **Defender hoặc analyst** để **gỡ mã độc**
+    - Hoặc ngược lại, **malware tự xóa dấu vết** để tránh phát hiện (rare)
