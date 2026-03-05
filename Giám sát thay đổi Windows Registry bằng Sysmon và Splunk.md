@@ -255,6 +255,7 @@ PowerShell chỉnh sửa Run Key là hành vi thường thấy trong:
     - Network connection
     - Process injection
     - Additional registry changes
+
 Nếu không nằm trong change management hợp lệ → đáng điều tra
 
 2. **Chỉnh sửa Registry**
