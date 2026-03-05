@@ -125,10 +125,11 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters
     - Đây là **một thay đổi cấu hình an ninh mạng ở cấp hệ thống**.
 3. **Xóa một khóa registry**
 
-```powershell
+```
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run\MalwareSimulation"
 ```
 
+<img width="927" height="35" alt="image" src="https://github.com/user-attachments/assets/4d516db2-d957-4ad8-8879-64904716a1e2" />
 
 - **Ý nghĩa:**
     - Xóa giá trị `MalwareSimulation` trong `Run Key` của người dùng hiện tại.
