@@ -245,7 +245,7 @@ PowerShell chỉnh sửa Run Key là hành vi thường thấy trong:
 - Script persistence
 - Red team simulation
 
-📌 Đề xuất điều tra (theo góc nhìn SOC thực tế)
+📌 Đề xuất điều tra
 
 - Kiểm tra sự tồn tại thực tế của file: `C:\malwaretest.exe`
 - Kiểm tra hash file (SHA256)
@@ -397,3 +397,90 @@ User: TRUONGHUYHOANG-\Hoang
     source = WinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype = XmlWinEventLog:Sysmon
 ```
+
+**Sự kiện xóa Registry Run Key – Dấu hiệu xóa Persistence**
+
+📌 Thời gian (UTC): 2026-03-05 07:16:51.610
+
+📌 Thời gian (giờ địa phương – UTC+7): ~14:16:51
+
+📌 Hostname: truonghuyhoang-b22dcat130-VPNClient
+
+📌 User thực hiện: TRUONGHUYHOANG-\Hoang
+(SID: S-1-5-18 – system context)
+
+📌 Process thực thi
+
+`Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
+
+Process ID: `6408`
+
+Process GUID: `{3478df39-281d-69a9-9505-000000003800}`
+
+📌 Hành vi
+
+Tiến trình PowerShell đã thực hiện thao tác DeleteKey trên Registry tại vị trí:
+
+`HKU\S-1-5-21-3253799767-270482447-3232193585-1001\SOFTWARE\Microsoft\Windows\CurrentVersion\Run\MalwareSimulation`
+
+Đây là hành vi xóa một Registry Run Key, thường liên quan đến việc loại bỏ persistence.
+
+📌 Giá trị liên quan
+
+`MalwareSimulation`
+
+Key này trước đó nhiều khả năng được sử dụng để tự động thực thi chương trình khi người dùng đăng nhập.
+
+📌 Phân tích kỹ thuật
+
+EventCode: 12
+
+TaskCategory: Registry object added or deleted
+
+EventType: DeleteKey
+
+Theo cơ chế của Windows:
+
+`HKCU\Software\Microsoft\Windows\CurrentVersion\Run`
+
+Tương đương với:
+
+`HKU\<SID>\Software\Microsoft\Windows\CurrentVersion\Run`
+
+Do đó, key bị xóa thuộc phạm vi user cụ thể (Hoang), không phải toàn hệ thống.
+
+Sysmon rule đã gắn nhãn:
+
+```
+technique_id=T1547.001
+technique_name=Registry Run Keys / Start Folder
+```
+
+📌 Mapping MITRE ATT&CK
+
+Technique ID: T1547.001
+Technique Name: Boot or Logon Autostart Execution – Registry Run Keys / Startup Folder
+Tactic: Persistence
+
+📌 Mức độ nghi vấn: Trung bình, phụ thuộc ngữ cảnh
+
+Hành vi xóa Run Key có thể xuất hiện trong:
+
+Cleanup hợp lệ (lab, script, admin)
+Gỡ bỏ malware
+Attacker xóa dấu vết để tránh bị phát hiện
+
+📌 Đề xuất điều tra 
+
+Kiểm tra log trước đó:
+- Key này được tạo khi nào
+- Xác định giá trị trước khi bị xóa (payload)
+Kiểm tra có persistence khác không:
+- Scheduled Task
+- Services
+Kiểm tra:
+- Parent process của PowerShell
+- Command-line có bất thường không
+- Correlate toàn bộ hành vi theo Process GUID
+
+Nếu không nằm trong change management hợp lệ → đáng điều tra trong bối cảnh attack chain
