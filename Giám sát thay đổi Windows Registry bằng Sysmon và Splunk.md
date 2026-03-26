@@ -473,12 +473,17 @@ Attacker xóa dấu vết để tránh bị phát hiện
 📌 Đề xuất điều tra 
 
 Kiểm tra log trước đó:
+
 - Key này được tạo khi nào
 - Xác định giá trị trước khi bị xóa (payload)
+
 Kiểm tra có persistence khác không:
+
 - Scheduled Task
 - Services
+
 Kiểm tra:
+
 - Parent process của PowerShell
 - Command-line có bất thường không
 - Correlate toàn bộ hành vi theo Process GUID
