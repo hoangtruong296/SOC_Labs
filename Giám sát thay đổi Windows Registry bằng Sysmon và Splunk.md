@@ -302,23 +302,23 @@ Sự kiện chỉnh sửa cấu hình TCP/IP – Thay đổi Registry hệ thố
 
 📌 Process thực thi
 
-Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Image: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
 
-Process ID: 6408
+Process ID: `6408`
 
-Process GUID: {3478df39-281d-69a9-9505-000000003800}
+Process GUID: `{3478df39-281d-69a9-9505-000000003800}`
 
 📌 Hành vi
 
 Tiến trình PowerShell đã thực hiện thao tác SetValue trên Registry tại vị trí:
 
-HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\DisableIPSourceRouting
+`HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\DisableIPSourceRouting`
 
 Đây là hành vi thay đổi cấu hình mạng ở mức hệ thống (TCP/IP stack).
 
 📌 Giá trị thiết lập
 
-DWORD (0x00000001)
+`DWORD (0x00000001)`
 
 Điều này đồng nghĩa với việc tắt tính năng IP Source Routing trên hệ thống.
 
@@ -332,13 +332,11 @@ EventType: SetValue
 
 Theo cơ chế của Windows:
 
-HKLM\System\CurrentControlSet\Services\Tcpip\Parameters
+`HKLM\System\CurrentControlSet\Services\Tcpip\Parameters`
 
 Đây là khu vực cấu hình network ở mức toàn hệ thống (machine-wide).
 
-Giá trị:
-
-DisableIPSourceRouting = 1
+Giá trị: DisableIPSourceRouting = 1
 
 → Vô hiệu hóa cơ chế Source Routing, thường được khuyến nghị trong security hardening.
 
@@ -352,9 +350,9 @@ Tactic: Defense Evasion
 
 PowerShell chỉnh sửa cấu hình TCP/IP là hành vi có thể xuất hiện trong:
 
-Script cấu hình hệ thống
-Hardening bảo mật
-Automation / policy
+- Script cấu hình hệ thống
+- Hardening bảo mật
+- Automation / policy
 
 📌 Đề xuất điều tra (theo góc nhìn SOC thực tế)
 
