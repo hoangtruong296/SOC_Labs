@@ -290,6 +290,91 @@ User: TRUONGHUYHOANG-\Hoang
     sourcetype = XmlWinEventLog:Sysmon
 ```
 
+📌 Thời gian (UTC):
+
+2026-03-05 06:57:57.846
+
+📌 Thời gian (giờ địa phương – UTC+7):
+
+~13:57:57
+
+📌 Hostname:
+
+truonghuyhoang-b22dcat130-VPNClient
+
+📌 User thực hiện:
+
+TRUONGHUYHOANG-\Hoang
+(SID: S-1-5-18 hiển thị trong log hệ thống, nhưng hành vi thực tế gắn với user Hoang)
+
+📌 Process thực thi
+
+Image:
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
+Process ID: 6408
+
+Process GUID:
+{3478df39-281d-69a9-9505-000000003800}
+
+📌 Hành vi
+
+Tiến trình PowerShell đã thực hiện thao tác SetValue trên Registry tại vị trí:
+
+HKLM\System\CurrentControlSet\Services\Tcpip\Parameters\DisableIPSourceRouting
+
+Đây là hành vi thay đổi cấu hình hệ thống liên quan đến TCP/IP stack.
+
+📌 Giá trị thiết lập
+DWORD (0x00000001)
+
+Giá trị này có ý nghĩa:
+
+1 → Disable IP Source Routing
+📌 Phân tích kỹ thuật
+EventCode: 13
+TaskCategory: Registry value set
+EventType: SetValue
+
+Registry path:
+
+HKLM\System\CurrentControlSet\Services\Tcpip\Parameters
+
+-> Đây là khu vực cấu hình network stack ở mức hệ thống (machine-wide).
+
+IP Source Routing là một cơ chế cho phép sender chỉ định đường đi của packet.
+
+Việc set:
+
+DisableIPSourceRouting = 1
+
+→ Tắt tính năng Source Routing, thường được:
+
+Khuyến nghị trong hardening (security best practice)
+Hoặc bị thay đổi bởi script/policy
+
+📌 Mức độ nghi vấn: Thấp → Trung bình (context-dependent)
+
+Hành vi này:
+
+- Có thể là hardening hợp lệ
+- Có thể là script cấu hình hệ thống
+- Ít phổ biến trong malware persistence
+
+-> Điểm cần lưu ý:
+
+Thực thi bằng PowerShell
+Cùng Process GUID với các hành vi khác (liên quan chain)
+
+📌 Đề xuất điều tra
+Kiểm tra command-line của PowerShell
+Xác định parent process
+Kiểm tra:
+Có thay đổi registry khác không
+Có liên quan đến script automation hay không
+Xác định:
+Đây là cấu hình hợp lệ hay nằm ngoài change management
+
 3. **Xóa một khóa registry**
 
 ```
