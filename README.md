@@ -1,3 +1,3 @@
 # HomeLab
 
-This repository contains all of the homelab that I have done.
+This repository contains all of the labs that I have done.
