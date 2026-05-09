@@ -1,4 +1,4 @@
-# Giám sát và điều tra thực thi tiến trình đáng ngờ trên Ubuntu bằng Sysmon và Splunk
+# Giám sát và điều tra thực thi tiến trình đáng ngờ trên Ubuntu bằng Sysmon và Splunk (đang hoàn thiện)
 
 ## 1. Mục tiêu
 - Phát hiện và điều tra các tiến trình đáng ngờ đang chạy trên hệ điều hành Ubuntu Server.
